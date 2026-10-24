@@ -29,9 +29,3 @@ Data — папка для хранения данных, сохраняемых
 
 ### 3. Просмотр контейнеров
 Посмотреть состояние контейнеров текущего проекта: `docker compose ps`
-
-### 4. Проверка взаимодействия frontend и backend
-Проверить получение сохранённых имён через backend: `docker compose exec frontend wget -qO- http://backend:8080/api/get-names`
-
-Отправить тестовое имя:
-`docker compose exec frontend wget -qO- --header="Content-Type: application/json" --post-data="{\"name\":\"Test User\"}" http://backend:8080/api/send-name`
