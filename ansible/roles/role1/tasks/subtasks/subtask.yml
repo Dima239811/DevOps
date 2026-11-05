@@ -1,0 +1,6 @@
+---
+- name: Остановить микросервисы (docker compose down)
+  ansible.builtin.command:
+    cmd: docker compose down
+    chdir: "{{ app_dir }}/DevOps"
+  tags: [stop, never]

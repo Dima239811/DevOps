@@ -1,0 +1,50 @@
+- name: Установить git, Docker и Docker Compose
+  ansible.builtin.apt:
+    name:
+      - git
+      - docker.io
+      - docker-compose-v2
+    state: present
+    update_cache: true
+  tags: [start]
+  notify: restart docker
+
+- name: Создать каталог для приложения
+  ansible.builtin.file:
+    path: "{{ app_dir }}"
+    state: directory
+    mode: "0755"
+  tags: [start]
+
+- name: склонировать репозиторий backend (ветка main, с Dockerfile поверх тега {{ app_version }})
+  ansible.builtin.git:
+    repo: "{{ backend_repo }}"
+    dest: "{{ app_dir }}/backend"
+    version: main
+    force: true
+  tags: [start]
+
+- name: Склонировать репозиторий frontend (ветка main, с Dockerfile поверх тега {{ app_version }})
+  ansible.builtin.git:
+    repo: "{{ frontend_repo }}"
+    dest: "{{ app_dir }}/frontend"
+    version: main
+    force: true
+  tags: [start]
+
+- name: Склонировать репозиторий DevOps
+  ansible.builtin.git:
+    repo: "{{ devops_repo }}"
+    dest: "{{ app_dir }}/DevOps"
+    version: main
+    force: true
+  tags: [start]
+
+- name: Запустить микросервисы (docker compose up -d --build)
+  ansible.builtin.command:
+    cmd: docker compose up -d --build
+    chdir: "{{ app_dir }}/DevOps"
+  tags: [start]
+
+- name: Импортировать задачи остановки
+  ansible.builtin.import_tasks: subtask.yml

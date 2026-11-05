@@ -1,0 +1,9 @@
+---
+github_user: Dima239811
+
+app_dir: /opt/app
+app_version: v2.0
+
+backend_repo:  "https://github.com/{{ github_user }}/backend.git"
+frontend_repo: "https://github.com/{{ github_user }}/frontend.git"
+devops_repo:   "https://github.com/{{ github_user }}/DevOps.git"

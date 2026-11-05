@@ -1,0 +1,6 @@
+---
+- name: Деплой микросервисов на удалённую ноду
+  hosts: app
+  become: true
+  roles:
+    - role1
