@@ -36,7 +36,7 @@
   ansible.builtin.git:
     repo: "{{ devops_repo }}"
     dest: "{{ app_dir }}/DevOps"
-    version: main
+    version: master
     force: true
   tags: [start]
 
