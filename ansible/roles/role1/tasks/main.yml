@@ -41,9 +41,10 @@
   tags: [start]
 
 - name: Запустить микросервисы (docker compose up -d --build)
-  ansible.builtin.command:
-    cmd: docker compose up -d --build
-    chdir: "{{ app_dir }}/DevOps"
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_dir }}/DevOps"
+    state: present
+    build: always
   tags: [start]
 
 - name: Импортировать задачи остановки
