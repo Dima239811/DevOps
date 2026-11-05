@@ -9,6 +9,13 @@
   tags: [start]
   notify: restart docker
 
+- name: Удалить старые каталоги приложения
+  ansible.builtin.file:
+    path: "{{ app_dir }}"
+    state: absent
+  tags: [start]
+
+
 - name: Создать каталог для приложения
   ansible.builtin.file:
     path: "{{ app_dir }}"
