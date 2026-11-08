@@ -9,14 +9,6 @@
   tags: [start]
   notify: restart docker
 
-
-- name: Остановить микросервисы (docker compose down)
-  community.docker.docker_compose_v2:
-    project_src: "{{ app_dir }}/DevOps"
-    state: absent
-  tags: [start]
-  ignore_errors: true
-
 - name: Удалить старые каталоги приложения
   ansible.builtin.file:
     path: "{{ app_dir }}"
@@ -63,4 +55,4 @@
   tags: [start]
 
 - name: Импортировать задачи остановки
-  ansible.builtin.import_tasks: subtask.yml
+  ansible.builtin.import_tasks: subtasks/subtask.yml
