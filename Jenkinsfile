@@ -8,7 +8,7 @@ pipeline {
                     ansiblePlaybook(
                         playbook: 'firstPlaybook.yml',
                         inventory: 'inventory/stend1/hosts',
-                        credentialsId: 'ansible-ssh-key',
+                        credentialsId: 'ansible-ssh-keys',
                         tags: 'prepare'
                     )
                 }
@@ -21,7 +21,7 @@ pipeline {
                     ansiblePlaybook(
                         playbook: 'firstPlaybook.yml',
                         inventory: 'inventory/stend1/hosts',
-                        credentialsId: 'ansible-ssh-key',
+                        credentialsId: 'ansible-ssh-keys',
                         tags: 'deploy'
                     )
                 }
