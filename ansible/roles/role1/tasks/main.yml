@@ -6,14 +6,8 @@
       - docker-compose-v2
     state: present
     update_cache: true
-  tags: [start]
+  tags: [start, prepare]
   notify: restart docker
-
-- name: Удалить старые каталоги приложения
-  ansible.builtin.file:
-    path: "{{ app_dir }}"
-    state: absent
-  tags: [start]
 
 
 - name: Создать каталог для приложения
@@ -21,7 +15,7 @@
     path: "{{ app_dir }}"
     state: directory
     mode: "0755"
-  tags: [start]
+  tags: [start, prepare]
 
 - name: склонировать репозиторий backend (ветка main, с Dockerfile поверх тега {{ app_version }})
   ansible.builtin.git:
@@ -29,7 +23,7 @@
     dest: "{{ app_dir }}/backend"
     version: main
     force: true
-  tags: [start]
+  tags: [start, prepare]
 
 - name: Склонировать репозиторий frontend (ветка main, с Dockerfile поверх тега {{ app_version }})
   ansible.builtin.git:
@@ -37,7 +31,7 @@
     dest: "{{ app_dir }}/frontend"
     version: main
     force: true
-  tags: [start]
+  tags: [start, prepare]
 
 - name: Склонировать репозиторий DevOps
   ansible.builtin.git:
@@ -45,14 +39,14 @@
     dest: "{{ app_dir }}/DevOps"
     version: master
     force: true
-  tags: [start]
+  tags: [start, prepare]
 
 - name: Запустить микросервисы (docker compose up -d --build)
   community.docker.docker_compose_v2:
     project_src: "{{ app_dir }}/DevOps"
     state: present
     build: always
-  tags: [start]
+  tags: [start, deploy]
 
 - name: Импортировать задачи остановки
   ansible.builtin.import_tasks: subtasks/subtask.yml
